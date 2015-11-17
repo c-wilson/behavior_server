@@ -1,0 +1,8 @@
+<h1>Mouse editor</h1>
+
+<form action="{% url 'behavior_subjects:edit_mouse' mouse_number%}" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" name="save" value="Save changes">
+</form>
+

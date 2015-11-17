@@ -1,0 +1,83 @@
+<html>
+<head>
+    <link
+    href="http://cdn.pydata.org/bokeh/release/bokeh-0.10.0.min.css"
+    rel="stylesheet" type="text/css">
+    <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.10.0.min.js"></script>
+    <style>
+        #sessions {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+        }
+        #sessions td, #sessions th {
+            font-size: 1em;
+            border: 1px solid rgba(46, 48, 50, 0.47);
+            padding: 3px 7px 2px 7px;
+        }
+        #sessions th {
+            font-size: 1em;
+            text-align: left;
+            padding-top: 5px;
+            padding-bottom: 4px;
+            background-color: #64b0bf;
+            color: #ffffff;
+        }
+        #sessions tr.alt td {
+            color: #000000;
+            background-color: #EAF2D3;
+        }
+        #sessions tr:nth-child(odd) {
+            background: #f9deb6;
+        }
+        #sessions tr {
+            background: #ddf9ef;
+        }
+    </style>
+    <title>Mouse database</title>
+</head>
+<body>
+
+
+<h1><u>Welcome to the mice</u></h1>
+
+{% if mice_list %}
+{#    <ul>#}
+{#    {% for m in mice_list %}#}
+{#        <li><a href="{% url 'behavior_subjects:mouse' m.mouse_number %}"> {{ m.mouse_number }} </a></li>#}
+{#    {% endfor %}#}
+{#    </ul>#}
+
+    <table id="sessions">
+        <tr>
+            <th><b>Mouse #</b></th>
+            <th><b>Last run date</b></th>
+            <th><b>Rig</b></th>
+            <th><b>Last performance</b></th>
+        </tr>
+        {% for m in mice_list %}
+            <tr>
+                <td><a href="{% url 'behavior_subjects:mouse' m.mouse_number %}">{{ m.mouse_number }}</a></td>
+                <td>{{ m.last_session_date }}</td>
+                <td>{{ m.rig }}</td>
+                <td>{{ m.last_session_performance }}</td>
+
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>No mice!</p>
+{% endif %}
+
+{% if error_msg %}
+    <p><strong>{{ error_msg }}</strong></p>
+{% endif %}
+<p>
+<form action="{% url "behavior_subjects:add_session" %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label>Upload new sessions:</label>
+    <input type="file" name="files" multiple>
+    <input type="submit" name="upload" value="Upload">
+</form>
+</p>
+<p><a href="{% url 'behavior_subjects:mouse_adder' %}"> Click to add new mouse! </a></p>
+</body>

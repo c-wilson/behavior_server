@@ -1,0 +1,46 @@
+<head>
+    <link
+    href="http://cdn.pydata.org/bokeh/release/bokeh-0.10.0.min.css"
+    rel="stylesheet" type="text/css">
+    <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.10.0.min.js"></script>
+    <style>
+        #sessions {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        {#    width: 500px;#}
+            border-collapse: collapse;
+        }
+        #sessions td, #sessions th {
+            font-size: 1em;
+            border: 1px solid rgba(46, 48, 50, 0.47);
+            padding: 3px 7px 2px 7px;
+        }
+        #sessions th {
+            font-size: 1.1em;
+            text-align: left;
+            padding-top: 5px;
+            padding-bottom: 4px;
+            background-color: #64b0bf;
+            color: #ffffff;
+        }
+        #sessions tr.alt td {
+            color: #000000;
+            background-color: #EAF2D3;
+        }
+    </style>
+</head>
+
+<a href="{% url 'behavior_subjects:index' %}"> return to mouse list </a><br>
+<a href="{% url 'behavior_subjects:mouse' session.mouse.mouse_number %}"> return to mouse {{ session.mouse.mouse_number }}. </a></p>
+
+
+{{ script|safe }}
+{{ div | safe }}
+
+<h1>mouse {{ session.mouse.mouse_number }} session {{ session.session_num }}</h1>
+
+<p>Date of session: {{ session.run_dtg }}</p>
+<p>Session file path: "{{ session.file.path }}"</p>
+
+
+{% load django_tables2 %}
+{% render_table trial_table %}
