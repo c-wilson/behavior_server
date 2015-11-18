@@ -1,9 +1,12 @@
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
+
     <link
-    href="http://cdn.pydata.org/bokeh/release/bokeh-0.10.0.min.css"
-    rel="stylesheet" type="text/css">
+            href="http://cdn.pydata.org/bokeh/release/bokeh-0.10.0.min.css"
+            rel="stylesheet" type="text/css">
     <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.10.0.min.js"></script>
+    {% load staticfiles %}
+    <LINK rel="stylesheet" type="text/css" href="{% static 'style.css' %}"/>
     <style>
         #sessions {
             font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -37,16 +40,12 @@
 </head>
 <body>
 
-
-<h1><u>Welcome to the mice</u></h1>
+<header role="banner">
+    <h1>Welcome to the mice</h1>
+</header>
 
 {% if mice_list %}
-{#    <ul>#}
-{#    {% for m in mice_list %}#}
-{#        <li><a href="{% url 'behavior_subjects:mouse' m.mouse_number %}"> {{ m.mouse_number }} </a></li>#}
-{#    {% endfor %}#}
-{#    </ul>#}
-
+    <p>
     <table id="sessions">
         <tr>
             <th><b>Mouse #</b></th>
@@ -64,6 +63,7 @@
             </tr>
         {% endfor %}
     </table>
+    </p>
 {% else %}
     <p>No mice!</p>
 {% endif %}
@@ -71,6 +71,7 @@
 {% if error_msg %}
     <p><strong>{{ error_msg }}</strong></p>
 {% endif %}
+
 <p>
 <form action="{% url "behavior_subjects:add_session" %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
@@ -79,5 +80,6 @@
     <input type="submit" name="upload" value="Upload">
 </form>
 </p>
-<p><a href="{% url 'behavior_subjects:mouse_adder' %}"> Click to add new mouse! </a></p>
+
+<p><a href="{% url 'behavior_subjects:mouse_adder' %}">Click to add new mouse! </a></p>
 </body>

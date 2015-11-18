@@ -4,6 +4,8 @@
     href="http://cdn.pydata.org/bokeh/release/bokeh-0.10.0.min.css"
     rel="stylesheet" type="text/css">
     <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.10.0.min.js"></script>
+    {% load staticfiles %}
+    <LINK rel="stylesheet" type="text/css" href="{% static 'style.css' %}"/>
     <style>
         #sessions {
             font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
@@ -21,11 +23,8 @@
             padding-bottom: 4px;
             background-color: #64b0bf;
             color: #ffffff;
+            font-weight: bold;
         }
-{#        #sessions tr.alt td {#}
-{#            color: #000000;#}
-{#            background-color: #EAF2D3;#}
-{#        }#}
         #sessions tr {
             background: #ffffff;
         }
@@ -36,24 +35,28 @@
     <title>Mouse {{ mouse.mouse_number }}</title>
 </head>
 <body>
-<a href="{% url 'behavior_subjects:index' %}"> return to mouse list. </a>
-<h1>Mouse {{ mouse.mouse_number }}</h1>
+<header>
+    <a href="{% url 'behavior_subjects:index' %}"> return to mouse list. </a><br>
+    <h1 style="margin-top: 5px">Mouse {{ mouse.mouse_number }}</h1>
+</header>
 <p>
     <b>DOB:</b> {{ mouse.dob }}<br>
     <b>Surgery date:</b> {{ mouse.surgery_date }}<br>
     <b>Genotype:</b> {{ mouse.genotype }} <br>
     <a href="{% url 'behavior_subjects:edit_mouse' mouse.mouse_number %}">Click to edit this mouse.</a>
 </p>
-<p>
+
 {% if sessions_list %}
     {{ script|safe }}
     {{ div|safe }}
+    <p>
     <table id="sessions">
     <tr>
-        <th><b>Session run time</b></th>
-        <th><b>Perf.</b></th>
-        <th><b>Lasers?</b></th>
-        <th><b>Odorset</b></th>
+        <th>Session run time</th>
+        <th>Perf.</th>
+        <th>Laser</th>
+        <th>Protocol Name</th>
+        <th>Odors</th>
         <th>Rig</th>
     </tr>
     {% for s in sessions_list %}
@@ -61,15 +64,16 @@
             <td><a href="{% url 'behavior_subjects:session' mouse.mouse_number s.id %}">{{ s.run_dtg }}</a></td>
             <td>{{ s.performance }}</td>
             <td>{{ s.lasers }}</td>
-            <td>{{ s.odorset_name }}</td>
+            <td>{{ s.protocol_name }}</td>
+             <td>{{ s.odorset_name }}</td>
             <td>{{ s.rig }}</td>
         </tr>
     {% endfor %}
     </table>
+    </p>
 {% else %}
     <p>No sessions yet!</p>
 {% endif %}
 
-</p>
 </body>
 

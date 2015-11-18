@@ -1,0 +1,64 @@
+body {
+    background-color: floralwhite;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    margin-left: 3%;
+    margin-top: 0%;
+}
+
+p{
+    display:inline-block;
+    margin-left: 0%;
+    /*margin-bottom: 0%;*/
+}
+
+h1{
+    text-indent: 1%;
+    text-decoration: underline;
+}
+
+a:link {
+    font-weight: bold;
+    text-decoration: none;
+    color: darkblue;
+}
+a:visited {
+    font-weight: bold;
+    text-decoration: none;
+    color: darkblue;
+}
+a:hover, a:focus, a:active {
+    text-decoration: underline;
+    color: darkblue;
+}
+
+
+header {
+    /*padding-top: -3%;*/
+    margin-left: -4%;
+    /*height: 87px;*/
+    background: #bc5532;
+    width: 100%;
+    height: auto;
+    display: block;
+    /*line-height:22px*/
+}
+header h1 {
+    text-indent: 3%;
+    text-decoration: underline;
+    color: white;
+    display: block;
+    /*line-height: 22px;*/
+}
+
+header a {
+    padding-left: 2%;
+}
+header a:link {
+    color:skyblue;
+    padding-right:2%;
+}
+
+header a:visited {
+    color:skyblue;
+    padding-right:2%;
+}

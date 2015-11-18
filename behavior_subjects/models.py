@@ -132,5 +132,6 @@ class TrialTable(tables.Table):
     class Meta:
         model = Trial
         exclude = ['session', 'id']
+        attrs = {'id': 'trials'}
 
 

@@ -3,40 +3,42 @@
     href="http://cdn.pydata.org/bokeh/release/bokeh-0.10.0.min.css"
     rel="stylesheet" type="text/css">
     <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.10.0.min.js"></script>
+    {% load staticfiles %}
+    <LINK rel="stylesheet" type="text/css" href="{% static 'style.css' %}"/>
     <style>
-        #sessions {
+        #trials {
             font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
         {#    width: 500px;#}
             border-collapse: collapse;
         }
-        #sessions td, #sessions th {
-            font-size: 1em;
+        #trials td, #trials th {
+            font-size: 70%;
             border: 1px solid rgba(46, 48, 50, 0.47);
-            padding: 3px 7px 2px 7px;
+            padding: 1px 4px 1px 4px;
         }
-        #sessions th {
-            font-size: 1.1em;
+        #trials th {
+            font-size: 1em;
             text-align: left;
-            padding-top: 5px;
-            padding-bottom: 4px;
+            padding-top: 1px;
+            padding-bottom: 1px;
             background-color: #64b0bf;
             color: #ffffff;
         }
-        #sessions tr.alt td {
-            color: #000000;
-            background-color: #EAF2D3;
+        #trials tr:nth-child(odd) {
+            background: #f9deb6;
         }
     </style>
+    <title>mouse:{{ session.mouse.mouse_number }} {{ session.run_dtg }}</title>
 </head>
-
-<a href="{% url 'behavior_subjects:index' %}"> return to mouse list </a><br>
-<a href="{% url 'behavior_subjects:mouse' session.mouse.mouse_number %}"> return to mouse {{ session.mouse.mouse_number }}. </a></p>
-
+<header>
+    <a href="{% url 'behavior_subjects:index' %}"> return to mouse list </a><br>
+    <a href="{% url 'behavior_subjects:mouse' session.mouse.mouse_number %}"> return to mouse {{ session.mouse.mouse_number }}. </a><br>
+    <h1 style="margin-top: 5px">mouse {{ session.mouse.mouse_number }} session {{ session.run_dtg }}</h1>
+</header>
 
 {{ script|safe }}
 {{ div | safe }}
 
-<h1>mouse {{ session.mouse.mouse_number }} session {{ session.session_num }}</h1>
 
 <p>Date of session: {{ session.run_dtg }}</p>
 <p>Session file path: "{{ session.file.path }}"</p>
