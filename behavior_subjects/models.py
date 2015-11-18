@@ -1,5 +1,3 @@
-import os
-
 from django.db import models
 from django.utils import timezone
 from .utils import mouse_path
@@ -7,11 +5,8 @@ import tables as tb
 import django_tables2 as tables
 from django.db import transaction
 
-# Create your models here.
 SEX_CHOICES = (('M', 'male'),
                ('F', 'female'))
-
-
 
 
 class Mouse(models.Model):
@@ -21,7 +16,6 @@ class Mouse(models.Model):
     sex = models.CharField(max_length=1, choices=SEX_CHOICES, blank=True, default='')
     date_added = models.DateField('Date added to database', default=timezone.now)
     genotype = models.CharField('Genotype', default='Wild Type', blank=True, max_length=100)
-
 
     def __str__(self):
         return 'mouse {0}'.format(self.mouse_number)
@@ -62,10 +56,10 @@ class Session(models.Model):
     rig = models.CharField('Rig', max_length=10, default='', blank=True)
     lickgraceperiod = models.IntegerField('Lick Grace Period', blank=True, default=0)
     odorset_name = models.CharField('Odorset name', max_length=32, blank=True, default='')
+    #TODO: add note attribute to Session model.
 
-    @transaction.atomic
+    @transaction.atomic  # do all processing, commit to database if everything is successful.
     def process(self):
-        print("Processing")
         with tb.open_file(self.file.path) as f:
             assert isinstance(f, tb.File)
             tr_table = f.root.Trials.read()
@@ -138,7 +132,5 @@ class TrialTable(tables.Table):
     class Meta:
         model = Trial
         exclude = ['session', 'id']
-#  TODO: make extensible trial model that can encapsulate a dictionary of data based on what is present within the H5.
-
 
 

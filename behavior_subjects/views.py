@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Mouse, Session, Trial, TrialTable
 from django.utils import timezone
+from django.db import transaction
 # from django.http import HttpResponse, Http404, HttpResponseRedirect
 from .forms import MouseForm
 from .utils import parse_h5path
@@ -99,20 +100,16 @@ def add_session(request):
             fn = file.name
             mouse_num, sess_num, dtg = parse_h5path(fn)
             mouse = Mouse.objects.get(mouse_number=mouse_num)
-            print (Session.objects.filter(run_dtg=dtg))
             if not Session.objects.filter(run_dtg=dtg):
-                new_sess = Session(mouse=mouse,
-                                   session_num=sess_num,
-                                   run_dtg=dtg,
-                                   added_dtg=timezone.now(),
-                                   file=file)
+                with transaction.atomic():
+                    new_sess = Session(mouse=mouse,
+                                       session_num=sess_num,
+                                       run_dtg=dtg,
+                                       added_dtg=timezone.now(),
+                                       file=file)
 
-                new_sess.save()
-                try:
+                    new_sess.save()
                     new_sess.process()
-                except Exception as e:
-                    new_sess.delete()
-                    raise e
                 msg = 'Sessions successfully added!'
             else:
                 print('Session exists.')
