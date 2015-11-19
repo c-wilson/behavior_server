@@ -45,7 +45,7 @@
 </header>
 
 {% if mice_list %}
-    <p>
+
     <table id="sessions">
         <tr>
             <th><b>Mouse #</b></th>
@@ -59,11 +59,9 @@
                 <td>{{ m.last_session_date }}</td>
                 <td>{{ m.rig }}</td>
                 <td>{{ m.last_session_performance }}</td>
-
             </tr>
         {% endfor %}
     </table>
-    </p>
 {% else %}
     <p>No mice!</p>
 {% endif %}

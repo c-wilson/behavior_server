@@ -5,17 +5,6 @@ body {
     margin-top: 0%;
 }
 
-p{
-    display:inline-block;
-    margin-left: 0%;
-    /*margin-bottom: 0%;*/
-}
-
-h1{
-    text-indent: 1%;
-    text-decoration: underline;
-}
-
 a:link {
     font-weight: bold;
     text-decoration: none;
@@ -35,9 +24,10 @@ a:hover, a:focus, a:active {
 header {
     /*padding-top: -3%;*/
     margin-left: -4%;
+    margin-right: 0%;
     /*height: 87px;*/
     background: #bc5532;
-    width: 100%;
+    width: 105%;
     height: auto;
     display: block;
     /*line-height:22px*/
@@ -47,7 +37,7 @@ header h1 {
     text-decoration: underline;
     color: white;
     display: block;
-    /*line-height: 22px;*/
+    margin-top: 5px;
 }
 
 header a {
@@ -55,10 +45,15 @@ header a {
 }
 header a:link {
     color:skyblue;
-    padding-right:2%;
+    padding-right: 0%;
 }
 
 header a:visited {
     color:skyblue;
-    padding-right:2%;
+    padding-right: 0%;
+}
+
+table th {
+    text-align: left;
+    vertical-align: top;
 }

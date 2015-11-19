@@ -56,7 +56,8 @@ class Session(models.Model):
     rig = models.CharField('Rig', max_length=10, default='', blank=True)
     lickgraceperiod = models.IntegerField('Lick Grace Period', blank=True, default=0)
     odorset_name = models.CharField('Odorset name', max_length=32, blank=True, default='')
-    #TODO: add note attribute to Session model.
+    notes = models.TextField('Session Notes', default='', blank=True)
+    bad = models.BooleanField('Bad Session', default=False, blank=True)
 
     @transaction.atomic  # do all processing, commit to database if everything is successful.
     def process(self):

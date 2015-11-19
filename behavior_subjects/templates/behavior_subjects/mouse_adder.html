@@ -1,30 +1,21 @@
-<h1>Add a mouse:</h1>
-
+<head></head>
+{% load staticfiles %}
+<LINK rel="stylesheet" type="text/css" href="{% static 'style.css' %}"/>
+</head>
+<body>
+<header>
+    <a href="{% url 'behavior_subjects:index' %}"> return to mouse list. </a><br>
+    <h1 style="margin-top: 5px">Add a mouse:</h1>
+</header>
 {% if error_msg %}
     <p><strong>{{ error_message }}</strong></p>
 {% endif %}
 
 <form action="{% url 'behavior_subjects:mouse_adder' %}" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    <table>
+        {{ form.as_table }}
+    </table>
     <input type="submit" name="add" value="Add mouse...">
-
 </form>
-
-{#{{ form }}#}
-
-{#<form action="{% url 'behavior_subjects:add_mouse' %}" method="post">#}
-{#    {% csrf_token %}#}
-{#    <label for="mouse_num">Mouse number:</label>#}
-{#    <input type="number" name="mouse_num" id="mouse_num"/>#}
-{#    <br>#}
-{#    <label for="dob">Date of birth:</label>#}
-{#    <input type="datetime" name="dob" id="dob"/>#}
-{#    <br>#}
-{#    <input type="radio" name="sex" value="Male">#}
-{#    <br>#}
-{#    <input type="radio" name="sex" value="Female">#}
-{##}
-{#    <input type="submit" value="Add" />#}
-{##}
-{#</form>#}
+</body>

@@ -5,7 +5,7 @@ from .models import Mouse, Session, Trial, TrialTable
 from django.utils import timezone
 from django.db import transaction
 # from django.http import HttpResponse, Http404, HttpResponseRedirect
-from .forms import MouseForm
+from .forms import MouseForm, SessionNotesForm
 from .utils import parse_h5path
 
 from bokeh.plotting import figure
@@ -85,38 +85,51 @@ def session(request, mouse_number, session_num):
 
 
 def add_session(request):
-    if request.FILES:
-        files = request.FILES.getlist('files')
-        for file in files:
-            fn = file.name
-            mouse_num, sess_num, dtg = parse_h5path(fn)
-            try:
+    session_list=[]
+    if request.method == "POST":
+        add_time = timezone.now()
+        if request.FILES:
+            files = request.FILES.getlist('files')
+            for file in files:
+                fn = file.name
+                mouse_num, sess_num, dtg = parse_h5path(fn)
+                try:
+                    mouse = Mouse.objects.get(mouse_number=mouse_num)
+                except ObjectDoesNotExist:
+                    err = 'Mouse {0} does not exist in database. Please add mouse first!'.format(mouse_num)
+                    return index(request, msg=err)  # short circuit if mouse doesn't exist before adding anything to db.
+
+            for file in files:
+                fn = file.name
+                mouse_num, sess_num, dtg = parse_h5path(fn)
                 mouse = Mouse.objects.get(mouse_number=mouse_num)
-            except ObjectDoesNotExist:
-                err = 'Mouse {0} does not exist in database. Please add mouse first!'.format(mouse_num)
-                return index(request, msg=err)  # short circuit if mouse doesn't exist before adding anything to db.
+                if not Session.objects.filter(run_dtg=dtg):
+                    with transaction.atomic():
+                        new_sess = Session(mouse=mouse,
+                                           session_num=sess_num,
+                                           run_dtg=dtg,
+                                           added_dtg=add_time,
+                                           file=file)
 
-        for file in files:
-            fn = file.name
-            mouse_num, sess_num, dtg = parse_h5path(fn)
-            mouse = Mouse.objects.get(mouse_number=mouse_num)
-            if not Session.objects.filter(run_dtg=dtg):
-                with transaction.atomic():
-                    new_sess = Session(mouse=mouse,
-                                       session_num=sess_num,
-                                       run_dtg=dtg,
-                                       added_dtg=timezone.now(),
-                                       file=file)
+                        new_sess.save()
+                        new_sess.process()
+                    session_list.append(new_sess)
 
-                    new_sess.save()
-                    new_sess.process()
-                msg = 'Sessions successfully added!'
-            else:
-                print('Session exists.')
-                continue
+                else:
+                    print('Session exists.')
+                    continue
+            msg = 'Sessions added:'
+        else:
+            msg = 'Please select one or more session files!'
     else:
-        msg = 'Please select one or more session files!'
-    return index(request, msg=msg)
+        last_add_s = Session.objects.latest('added_dtg')
+        last_add_time = last_add_s.added_dtg
+        session_list = Session.objects.filter(added_dtg=last_add_time)
+        msg = 'Recently added sessions:'
+        # session_list = Session.objects.
+    context = {'message': msg,
+               'session_list': session_list}
+    return render(request, "behavior_subjects/sessions_added.html", context=context)
 
 
 def mouse_adder(request):
@@ -149,5 +162,21 @@ def edit_mouse(request, mouse_number):
                                                            'form': form})
 
 
-def session_graph(request, mouse_number, session_number):
-    return None
+def session_notes(request, mouse_number, session_num):
+
+    s = Session.objects.get(id=session_num)
+    if request.method == 'POST':
+        next = request.POST.get('next', 'behavior_subjects:mouse')
+        # next = request.POST['next']
+        print(request.POST)
+        form = SessionNotesForm(request.POST, instance=s)
+        if form.is_valid():
+            form.save()
+            return redirect(next, mouse_number)
+        else:
+            return None
+    else:
+        form = SessionNotesForm(instance=s)
+        return render(request, "behavior_subjects/session_notes.html", {"session": s,
+                                                                        "form": form,
+                                                                        "from": request.GET.get('from', None)})

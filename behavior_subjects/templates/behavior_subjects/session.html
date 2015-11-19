@@ -31,7 +31,7 @@
     <title>mouse:{{ session.mouse.mouse_number }} {{ session.run_dtg }}</title>
 </head>
 <header>
-    <a href="{% url 'behavior_subjects:index' %}"> return to mouse list </a><br>
+    <a href="{% url 'behavior_subjects:index' %}"> return to mouse list. </a><br>
     <a href="{% url 'behavior_subjects:mouse' session.mouse.mouse_number %}"> return to mouse {{ session.mouse.mouse_number }}. </a><br>
     <h1 style="margin-top: 5px">mouse {{ session.mouse.mouse_number }} session {{ session.run_dtg }}</h1>
 </header>
@@ -40,9 +40,16 @@
 {{ div | safe }}
 
 
-<p>Date of session: {{ session.run_dtg }}</p>
-<p>Session file path: "{{ session.file.path }}"</p>
-
+<p>
+    {{ session.run_dtg }} <br>
+    <u>Session file path:</u> "{{ session.file.path }}"
+</p>
+<p><u>Notes:</u> {{ session.notes }}</p>
+<p>
+    <a href="{% url 'behavior_subjects:session_notes' session.mouse.mouse_number session.id %}?from={{ request.path|urlencode }}">
+        Click to edit session notes.
+    </a>
+</p>
 
 {% load django_tables2 %}
 {% render_table trial_table %}

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Mouse, Trial
+from .models import Mouse, Session
 
 
 class UploadForm(forms.Form):
@@ -10,3 +10,7 @@ class MouseForm(forms.ModelForm):
         model = Mouse
         fields = ['mouse_number', 'surgery_date', 'dob', 'sex', 'genotype']
 
+class SessionNotesForm(forms.ModelForm):
+    class Meta:
+        model = Session
+        fields = ['bad', 'notes']
