@@ -4,6 +4,23 @@
     <meta charset="UTF-8">
     <title>Rig Status</title>
     <meta http-equiv="refresh" content="30" >
+    <style>
+        body {
+            background-color: floralwhite;
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            margin-left: 3%;
+            margin-top: 0%;
+        }
+        table {
+            border-collapse: collapse
+        }
+        table td, table th {
+            font-size: 1em;
+            border: 1px solid rgba(46, 48, 50, 0.47);
+            padding: 3px 7px 2px 7px;
+        }
+
+    </style>
 </head>
 <body>
 
@@ -20,11 +37,11 @@
             <th>Misses</th>
             <th>Corrects</th>
             <th>Trials</th>
-            <th>Last hearbeat(s)</th>
+            <th>Last heartbeat(s)</th>
 
         </tr>
         {% for r in rigs %}
-            <tr>
+            <tr style="background: {{ r.status_color }}">
                 <td>{{ r.name }}</td>
                 <td>{{ r.status }}</td>
                 <td>{{ r.non_responses }}</td>

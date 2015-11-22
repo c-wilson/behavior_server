@@ -1,6 +1,9 @@
 from django.db import models
 from django.utils import timezone
-import django_tables2 as tables
+
+STATUS_COLORS = {'Running': '#98FF98',
+                 'Stopped': 'white',
+                 'Paused': 'red'}
 
 class Rig(models.Model):
     name = models.CharField('Rig', max_length=10)
@@ -10,12 +13,20 @@ class Rig(models.Model):
     n_trials = models.IntegerField('Num Trials', blank=True, default=0)
     last_heartbeat = models.DateTimeField('Last heartbeat', blank=True, default=timezone.now())
 
-    def performance(self):
-        return self.correct / self.trials
-
     def time_since_last(self):
         t = timezone.now() - self.last_heartbeat
         return "{0:0.0f}".format(t.total_seconds())
+
+    def performance(self):
+        p = self.correct / self.n_trials
+        return "{0.2f}".format(p)
+
+    def status_color(self):
+
+        if int(self.time_since_last()) > 200 and not self.status == 'Stopped':
+            return 'red'
+        else:
+            return STATUS_COLORS[self.status]
 
     def reset(self):
         self.correct = 0
