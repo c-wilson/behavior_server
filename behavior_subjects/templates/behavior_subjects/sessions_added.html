@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sessions adder</title>
+    {% load staticfiles %}
+    <LINK rel="stylesheet" type="text/css" href="{% static 'style.css' %}"/>
+    <style>
+        #sessions {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+        }
+        #sessions td, #sessions th {
+            font-size: 80%;
+            border: 1px solid rgba(46, 48, 50, 0.47);
+            padding: 3px 7px 2px 7px;
+        }
+        #sessions th {
+            font-size: 1.1em;
+            text-align: left;
+            padding-top: 5px;
+            padding-bottom: 4px;
+            background-color: #64b0bf;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        #sessions tr {
+            background: #ffffff;
+        }
+        #sessions tr:nth-child(odd) {
+            background: #f9deb6;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <a href="{% url 'behavior_subjects:index' %}"> return to mouse list. </a><br>
+    <h1 style="margin-top: 5px">Session adder</h1>
+</header>
+
+{% if message %}
+    <p>{{ message }} </p>
+{% endif %}
+
+{% if session_list %}
+    <p>
+        <table id="sessions">
+            <tr>
+                <th>Mouse</th>
+                <th>Session run time</th>
+                <th>Perf.</th>
+                <th>Laser</th>
+                <th>Protocol Name</th>
+                <th>Odors</th>
+                <th>Rig</th>
+                <th>Trials</th>
+                <th>Bad</th>
+                <th>Session notes</th>
+            </tr>
+            {% for s in session_list %}
+                <tr>
+                    <td><a href="{% url 'behavior_subjects:mouse' s.mouse.mouse_number %}">{{ s.mouse.mouse_number }}</a></td>
+                    <td><a href="{% url 'behavior_subjects:session' s.mouse.mouse_number s.id %}">{{ s.run_dtg }}</a></td>
+                    <td>{{ s.performance }}</td>
+                    <td>{{ s.lasers }}</td>
+                    <td>{{ s.protocol_name }}</td>
+                    <td>{{ s.odorset_name }}</td>
+                    <td>{{ s.rig }}</td>
+                    <td style="text-align: right; ">{{ s.valid_trials }}</td>
+                    <td style="text-align: center">{{ s.bad|yesno }}</td>
+                    <td>
+                        <a href="{% url 'behavior_subjects:session_notes' s.mouse.mouse_number s.id %}?from={{ request.path|urlencode }}">
+                            {% if s.notes %}
+                                {{ s.notes|make_list|slice:':18'|join:'' }}...
+                            {% else %}
+                                Add session notes.
+                            {% endif %}
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </p>
+
+{% endif %}
+
+<h2><a href="{% url 'behavior_subjects:index' %}"> return to mouse list. </a><br></h2>
+
+
+</body>
+</html>

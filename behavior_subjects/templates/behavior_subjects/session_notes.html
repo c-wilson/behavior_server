@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load staticfiles %}
+    <LINK rel="stylesheet" type="text/css" href="{% static 'style.css' %}"/>
+    <meta charset="UTF-8">
+    <title>Session Notes: {{ session.id }} </title>
+    <style>
+        table td
+    </style>
+</head>
+<body>
+<header>
+    <a href="{% url 'behavior_subjects:index' %}"> return to mouse list. </a><br>
+    <a href="{% url 'behavior_subjects:mouse' session.mouse.mouse_number %}"> return to mouse {{ session.mouse.mouse_number }}. </a><br>
+    <h1>Edit session notes</h1>
+</header>
+<p>Editing session notes for mouse {{ session.mouse.mouse_number }}, {{ session.run_dtg }}.</p>
+
+<form action="{% url 'behavior_subjects:session_notes' session.mouse.mouse_number session.id %}" method="post" >
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    <input type="submit" name="add" value="Save">
+    {% if from %}<input type="hidden" name="next" value="{{ from }}" >{% endif %}
+</form>
+
+{{ from }}
+</body>
+</html>
