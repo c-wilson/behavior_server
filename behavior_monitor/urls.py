@@ -19,5 +19,6 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^behavior_subjects/', include('behavior_subjects.urls', namespace='behavior_subjects')),
-    url(r'^$', include('behavior_subjects.urls', namespace='behavior_subjects'))
+    url(r'^$', include('behavior_subjects.urls', namespace='behavior_subjects')),
+    url(r'^rig_status/', include('rig_status.urls', namespace='rig_status'))
 ]

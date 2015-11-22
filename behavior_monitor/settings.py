@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'behavior_subjects',
+    'rig_status',
     'django_tables2',
 )
 

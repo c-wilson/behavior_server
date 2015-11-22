@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rig Status</title>
+    <meta http-equiv="refresh" content="30" >
+</head>
+<body>
+
+<header role="banner">
+    <h1>Rig status</h1>
+</header>
+
+{% if rigs %}
+
+    <table id="rigs">
+        <tr>
+            <th>Rig</th>
+            <th>Status</th>
+            <th>Misses</th>
+            <th>Corrects</th>
+            <th>Trials</th>
+            <th>Last hearbeat(s)</th>
+
+        </tr>
+        {% for r in rigs %}
+            <tr>
+                <td>{{ r.name }}</td>
+                <td>{{ r.status }}</td>
+                <td>{{ r.non_responses }}</td>
+                <td>{{ r.correct }}</td>
+                <td>{{ r.n_trials }}</td>
+                <td>{{ r.time_since_last }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>No rigs yet!</p>
+{% endif %}

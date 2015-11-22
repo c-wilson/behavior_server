@@ -36,7 +36,7 @@ def mouse(request, mouse_number):
         if np.isnan(float(x[i])):
             x[i] = 0.
 
-    plot = figure(plot_width=500, plot_height=300, toolbar_location=None,
+    plot = figure(plot_width=600, plot_height=300, toolbar_location=None,
                   x_axis_type='datetime', x_axis_label='Date', y_axis_label='Performance',
                   tools="xpan, xwheel_zoom, reset,resize")
     plot.y_range = Range1d(0., 1.)
@@ -168,7 +168,6 @@ def session_notes(request, mouse_number, session_num):
     if request.method == 'POST':
         next = request.POST.get('next', 'behavior_subjects:mouse')
         # next = request.POST['next']
-        print(request.POST)
         form = SessionNotesForm(request.POST, instance=s)
         if form.is_valid():
             form.save()

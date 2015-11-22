@@ -43,13 +43,16 @@
     <b>DOB:</b> {{ mouse.dob }}<br>
     <b>Surgery date:</b> {{ mouse.surgery_date }}<br>
     <b>Genotype:</b> {{ mouse.genotype }} <br>
-    <a href="{% url 'behavior_subjects:edit_mouse' mouse.mouse_number %}">Click to edit this mouse.</a>
 </p>
+
+<p><a href="{% url 'behavior_subjects:edit_mouse' mouse.mouse_number %}">Click to edit this mouse.</a></p>
+
 
 {% if sessions_list %}
     {{ script|safe }}
     {{ div|safe }}
     <p>
+    <h2><u>Sessions:</u></h2>
     <table id="sessions">
     <tr>
         <th>Session run time</th>
