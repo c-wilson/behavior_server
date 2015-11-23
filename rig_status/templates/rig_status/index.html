@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <title>Rig Status</title>
     <meta http-equiv="refresh" content="30" >
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
     <style>
         body {
             background-color: floralwhite;
             font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
             margin-left: 3%;
             margin-top: 0%;
+            width: 100%;
         }
         table {
             border-collapse: collapse
@@ -25,27 +27,28 @@
 <body>
 
 <header role="banner">
-    <h1>Rig status</h1>
+    <h1>Rig status:</h1>
 </header>
 
 {% if rigs %}
 
-    <table id="rigs">
+    <table style="width: auto">
         <tr>
             <th>Rig</th>
             <th>Status</th>
-            <th>Misses</th>
-            <th>Corrects</th>
-            <th>Trials</th>
-            <th>Last heartbeat(s)</th>
-
+            <th>H</th>
+            <th>M</th>
+            <th>%</th>
+            <th>T</th>
+            <th>LastHB(s)</th>
         </tr>
         {% for r in rigs %}
             <tr style="background: {{ r.status_color }}">
                 <td>{{ r.name }}</td>
                 <td>{{ r.status }}</td>
-                <td>{{ r.non_responses }}</td>
                 <td>{{ r.correct }}</td>
+                <td>{{ r.non_responses }}</td>
+                <td>{{ r.performance }}</td>
                 <td>{{ r.n_trials }}</td>
                 <td>{{ r.time_since_last }}</td>
             </tr>

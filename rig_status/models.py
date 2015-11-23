@@ -18,13 +18,19 @@ class Rig(models.Model):
         return "{0:0.0f}".format(t.total_seconds())
 
     def performance(self):
-        p = self.correct / self.n_trials
-        return "{0.2f}".format(p)
+        try:
+            p = self.correct / self.n_trials
+        except ZeroDivisionError:
+            p = 0.
+
+        return "{0:0.2f}".format(p)
 
     def status_color(self):
 
         if int(self.time_since_last()) > 200 and not self.status == 'Stopped':
             return 'red'
+        elif (float(self.performance()) < .4 or self.non_responses > 25) and not self.status == 'Stopped':
+            return 'yellow'
         else:
             return STATUS_COLORS[self.status]
 
