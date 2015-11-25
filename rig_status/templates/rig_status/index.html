@@ -27,7 +27,7 @@
 <body>
 
 <header role="banner">
-    <h1>Rig status:</h1>
+    <h1>Peeper:<h1>
 </header>
 
 {% if rigs %}
@@ -40,7 +40,9 @@
             <th>M</th>
             <th>%</th>
             <th>T</th>
-            <th>LastHB(s)</th>
+            <th>Ago</th>
+            <th>VNC</th>
+
         </tr>
         {% for r in rigs %}
             <tr style="background: {{ r.status_color }}">
@@ -51,6 +53,12 @@
                 <td>{{ r.performance }}</td>
                 <td>{{ r.n_trials }}</td>
                 <td>{{ r.time_since_last }}</td>
+                {% if r.vnc_ip %}
+                    <td><a href="{{ r.vnc_ip }}" target="_blank">link</a></td>
+                {% else %}
+                    <td>none</td>
+                {% endif %}
+
             </tr>
         {% endfor %}
     </table>

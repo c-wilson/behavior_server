@@ -12,6 +12,7 @@ class Rig(models.Model):
     correct = models.IntegerField('Trials correct', blank=True, default=0)
     n_trials = models.IntegerField('Num Trials', blank=True, default=0)
     last_heartbeat = models.DateTimeField('Last heartbeat', blank=True, default=timezone.now())
+    vnc_ip = models.URLField()
 
     def time_since_last(self):
         t = timezone.now() - self.last_heartbeat

@@ -27,6 +27,7 @@ def update_status(request):
             rig.non_responses = int(post['non_resp'])
             rig.correct = int(post['corr_resp'])
             rig.n_trials = int(post['n_trials'])
+            rig.vnc_ip = post['vnc_viewer_url']
             rig.last_heartbeat = timezone.now()
             rig.save()
         except KeyError as e:
